@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_marginTop="6dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:id="@+id/parentLayout"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="115dp"
+        android:maxLines="2"
+        android:layout_weight="1.5"
+        android:textSize="15sp"
+        android:text="State"
+        android:textStyle="bold"
+        android:layout_marginRight="4dp"
+        android:id="@+id/stateTextView"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_weight="1"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:layout_width="40dp"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="Confirmed"
+        android:id="@+id/confirmedTextview"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="40dp"
+        android:textStyle="bold"
+        android:maxLines="1"
+
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="Active"
+        android:id="@+id/activeTextview"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textStyle="bold"
+        android:layout_weight="1"
+        android:layout_width="40dp"
+        android:textSize="15sp"
+        android:maxLines="1"
+
+        android:text="Recovered"
+        android:id="@+id/recoveredTextview"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

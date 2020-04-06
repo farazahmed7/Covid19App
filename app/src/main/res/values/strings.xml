@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CoronaLive</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="deaths_label">Deaths</string>
+    <string name="recovered">Recovered</string>
+    <string name="state">State</string>
+    <string name="state_label">States</string>
+    <string name="active">Active</string>
+</resources>
