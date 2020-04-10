@@ -1,5 +1,8 @@
 package coronago.coronalive.ui.main
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coronago.coronalive.R
 import coronago.coronalive.adapter.StateListAdapter
 import coronago.coronalive.model.CombinedStatsModel
+import coronago.coronalive.utility.PreferenceUtility
+import coronago.coronalive.widget.CovidWidget
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import kotlinx.android.synthetic.main.fragment_list.view.recyclerView
@@ -31,14 +36,12 @@ class ListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v= inflater.inflate(R.layout.fragment_list, container, false)
-        if(activity is AppCompatActivity){
-            (activity as AppCompatActivity).setSupportActionBar(v.toolbar)
-        }
+
         v.recyclerView.layoutManager= LinearLayoutManager(activity)
         val adapter=StateListAdapter()
         v.recyclerView.adapter=adapter
 
-        viewModel= ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel= ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         viewModel.getStatewiseData().observe(viewLifecycleOwner, Observer {
          /*   v.deathsTextview.setText(it[0].deaths)
             v.recoveredTextview.setText(it[0].recovered)
@@ -49,17 +52,12 @@ class ListFragment : Fragment() {
         })
 
 
-
+        val prefUtilty=PreferenceUtility(activity!!)
         viewModel.getStatewiseData()
         viewModel.combinedLiveData.observe(viewLifecycleOwner, Observer {combined->
             val it=combined.first.body()!!.statewise
             val districtMap=combined.second
-
-            v.deathsTextview.text = it[0].deaths
-            v.recoveredTextview.text = it[0].recovered
-            v.ActiveTextview.text = it[0].active
-            v.confirmedTextview.text = it[0].confirmed
-            v.textView.text=it[0].deltaconfirmed
+            prefUtilty.saveConfirmedPref(it[0].confirmed)
             adapter.setDistrictMap(districtMap)
             adapter.submitList(it)
 
@@ -69,5 +67,7 @@ class ListFragment : Fragment() {
         return v
 
     }
+
+
 
 }

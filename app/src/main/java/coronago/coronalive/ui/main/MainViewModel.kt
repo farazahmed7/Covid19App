@@ -36,20 +36,29 @@ class MainViewModel: ViewModel() {
                 val xList: ArrayList<Int> = arrayListOf()
                 val yList: ArrayList<Int> = arrayListOf()
                 val deceasedList: ArrayList<Int> = arrayListOf()
-                val dailyCaseList: ArrayList<Int> = arrayListOf()
+                val totalRecovered: ArrayList<Int> = arrayListOf()
+                val totalCaseList: ArrayList<Int> = arrayListOf()
                 val dateList: ArrayList<String> = arrayListOf()
+                val dailyCasesList: ArrayList<Int> = arrayListOf()
+                val dailyDeceasedList: ArrayList<Int> = arrayListOf()
+                val dailyRecoveredList: ArrayList<Int> = arrayListOf()
+
                 val size=it.body()?.cases_time_series?.size
                 val casesTimeSeries= it.body()?.cases_time_series
                 for(i in 0 until size!!){
                     if(casesTimeSeries!![i].totalconfirmed=="") continue
                     yList.add(casesTimeSeries!![i].totalconfirmed.toInt())
                     xList.add(i)
-                    dailyCaseList.add(casesTimeSeries[i].dailyconfirmed.toInt())
+                    totalCaseList.add(casesTimeSeries[i].dailyconfirmed.toInt())
                     dateList.add(casesTimeSeries[i].date)
-                    deceasedList.add(casesTimeSeries[i].dailydeceased.toInt())
+                    deceasedList.add(casesTimeSeries[i].totaldeceased.toInt())
+                    totalRecovered.add(casesTimeSeries[i].totalrecovered.toInt())
+                    dailyRecoveredList.add(casesTimeSeries[i].dailyrecovered.toInt())
+                    dailyCasesList.add(casesTimeSeries[i].dailyconfirmed.toInt())
+                    dailyDeceasedList.add(casesTimeSeries[i].dailydeceased.toInt())
 
             }
-                val graphInfo=GraphInfo(xList,yList,dailyCaseList,deceasedList,dateList)
+                val graphInfo=GraphInfo(xList,yList,totalCaseList,dailyCasesList,dailyDeceasedList,dailyRecoveredList,deceasedList,dateList,totalRecovered)
                 graphInfoLiveData.value=graphInfo
 
             }

@@ -1,10 +1,13 @@
 package coronago.coronalive.ui.main
 
+import android.graphics.Paint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.charts.LineChart
@@ -14,13 +17,17 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.LargeValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
-
+import com.jem.fliptabs.FlipTab
 import coronago.coronalive.R
 import coronago.coronalive.customview.CustomMarkerView
 import coronago.coronalive.model.GraphInfo
-import kotlinx.android.synthetic.main.activity_main.*
+import coronago.coronalive.utility.MyValueFormatter
+import coronago.coronalive.utility.ViewInScrollViewTouchHelper
+import kotlinx.android.synthetic.main.fragment_graph.*
 import kotlinx.android.synthetic.main.fragment_graph.view.*
 
 /**
@@ -29,6 +36,7 @@ import kotlinx.android.synthetic.main.fragment_graph.view.*
 class GraphFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
 
+    private var loaded :Boolean =false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,24 +44,56 @@ class GraphFragment : Fragment() {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_graph, container, false)
 
+        val viewInScrollView:LinearLayout=view.findViewById(R.id.viewInSv)
 
+
+
+   //   viewInScrollView.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
         viewModel= ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getAllStatsData()
         val entries=ArrayList<Entry>()
         val entries2=ArrayList<Entry>()
+        val entries3=ArrayList<Entry>()
+        val entries4=ArrayList<Entry>()
+        val entries5=ArrayList<Entry>()
+        val entries6=ArrayList<Entry>()
+        var graphInfo: GraphInfo? =null
+
+
+        view.fliptab.setTabSelectedListener(object: FlipTab.TabSelectedListener {
+            override fun onTabSelected(isLeftTab: Boolean, tabTextValue: String) {
+                if(isLeftTab && loaded )
+                    setCumilative(entries,entries2,entries3,graphInfo!!)
+                else
+                    if(!isLeftTab && loaded )
+                setDaily(entries4,entries5,entries6,graphInfo!!)
+
+
+            }
+            override fun onTabReselected(isLeftTab: Boolean, tabTextValue: String) {
+
+            }
+        })
 
         viewModel.graphInfoLiveData.observe(viewLifecycleOwner, Observer {
 
+            var downX:Int=0
+            var downY:Int=0
+            val dragthreshold=100
+            dailyCasesChart.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
+            deceasedChart.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
 
-            for(i in 0 until it.xAxis.size )
-                entries.add(Entry(it.xAxis[i].toFloat(), it.yAsix[i].toFloat()))
-            setChart(entries,it,view.dailyCasesChart)
+            setCumilative(entries,entries2,entries3,it)
+             graphInfo=it
+           /* view.button.setOnClickListener(View.OnClickListener {
+                setDaily(entries4,entries5,entries6,graphInfo)
 
-            for(i in 0 until it.xAxis.size )
-                entries2.add(Entry(it.xAxis[i].toFloat(), it.dailyDeceaseCasesList[i].toFloat()))
-            setChart(entries2,it,view.deceasedChart)
+            })*/
+
+
 
             setListeners(view.dailyCasesChart,view.deceasedChart)
+            loaded=true
 
 
 
@@ -61,16 +101,47 @@ class GraphFragment : Fragment() {
             return view
     }
 
+    fun setCumilative(entries:ArrayList<Entry>, entries2:ArrayList<Entry>,entries3:ArrayList<Entry>,it: GraphInfo){
+        entries.clear(); entries2.clear(); entries3.clear()
+        for(i in 0 until it.xAxis.size )
+            entries.add(Entry(it.xAxis[i].toFloat(), it.yAsix[i].toFloat()))
+        setChart(entries,it,view!!.dailyCasesChart)
 
+        for(i in 0 until it.xAxis.size )
+            entries2.add(Entry(it.xAxis[i].toFloat(), it.totalDeceaseCasesList[i].toFloat()))
+        setChart(entries2,it,view!!.deceasedChart)
+
+        for(i in 0 until it.xAxis.size )
+            entries3.add(Entry(it.xAxis[i].toFloat(), it.totalRecovered[i].toFloat()))
+        setChart(entries3,it,view!!.recoveredChart)
+
+    }
+
+    fun setDaily(entries:ArrayList<Entry>, entries2:ArrayList<Entry>,entries3:ArrayList<Entry>,it: GraphInfo){
+
+        entries.clear(); entries2.clear(); entries3.clear()
+        for(i in 0 until it.xAxis.size )
+            entries.add(Entry(it.xAxis[i].toFloat(), it.dailyCasesList[i].toFloat()))
+        setChart(entries,it,view!!.dailyCasesChart)
+
+        for(i in 0 until it.xAxis.size )
+            entries2.add(Entry(it.xAxis[i].toFloat(), it.dailyDeaths[i].toFloat()))
+        setChart(entries2,it,view!!.deceasedChart)
+
+        for(i in 0 until it.xAxis.size )
+            entries3.add(Entry(it.xAxis[i].toFloat(), it.dailyRecovered[i].toFloat()))
+        setChart(entries3,it,view!!.recoveredChart)
+
+    }
     fun  setListeners(casesChart:LineChart, deathsChart:LineChart){
         casesChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onNothingSelected() {
-                TODO("Not yet implemented")
             }
 
             override fun onValueSelected(e: Entry?, h: Highlight?) {
                 if (e != null) {
                     deathsChart.highlightValue(e.getX(),e.getY(),0,false)
+                    casesChart.parent.parent.requestDisallowInterceptTouchEvent(true)
                 };
             }
 
@@ -78,12 +149,28 @@ class GraphFragment : Fragment() {
 
         deathsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onNothingSelected() {
-                TODO("Not yet implemented")
             }
 
             override fun onValueSelected(e: Entry?, h: Highlight?) {
                 if (e != null) {
                     casesChart.highlightValue(e.getX(),e.getY(),0,false)
+                    deathsChart.parent.parent.requestDisallowInterceptTouchEvent(true)
+
+                };
+            }
+
+        })
+
+        recoveredChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onNothingSelected() {
+            }
+
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                if (e != null) {
+                    casesChart.highlightValue(e.getX(),e.getY(),0,false)
+                    deathsChart.highlightValue(e.getX(),e.getY(),0,false)
+                    recoveredChart.parent.parent.requestDisallowInterceptTouchEvent(true)
+
                 };
             }
 
@@ -98,11 +185,15 @@ class GraphFragment : Fragment() {
         //    deathsChart.setBackgroundColor(resources.getColor(R.color.red))
 
         val lineDataSet= LineDataSet(entries,"")
+
+
         val lineData= LineData(lineDataSet)
+
+
         chart.data=lineData
         lineData.setDrawValues(false)
         lineDataSet.setDrawCircles(false)
-        lineDataSet.lineWidth= 5F
+        lineDataSet.lineWidth= 3F
         lineDataSet.setDrawHighlightIndicators(false)
         chart.axisRight.setDrawGridLines(false);
         chart.axisLeft.setDrawGridLines(false);
@@ -120,6 +211,7 @@ class GraphFragment : Fragment() {
 
         chart.zoomOut()
 
+
         chart.xAxis.setValueFormatter(object: IndexAxisValueFormatter(){
             override fun getFormattedValue(value: Float): String? {
                 return graphInfo.dateList[value.toInt()]
@@ -127,6 +219,8 @@ class GraphFragment : Fragment() {
 
         } )
 
+        chart.axisLeft.valueFormatter=LargeValueFormatter()
+        chart.axisRight.isEnabled=false
 
 
     }

@@ -4,7 +4,14 @@
     <color name="colorPrimaryDark">#0277bd</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="red">#d50000</color>
+    <color name="lightRed">#32D50000</color>
     <color name="green">#4CAF50</color>
     <color name="gray">#27BDBDBD</color>
     <color name="purple">#7C4DFF</color>
-</resources>
+    <color name="darkblue">#0277bd</color>
+    <color name="transparent">#00000000</color>
+    <!-- card colors -->
+    <color name="card_background">#ffffff</color>
+    <color name="card_shadow_1">#d4d4d4</color>
+    <color name="card_shadow_2">#dddddd</color>
+    <color name="card_detailing">#eee</color></resources>

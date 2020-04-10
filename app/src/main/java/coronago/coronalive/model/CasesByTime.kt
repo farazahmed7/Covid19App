@@ -7,7 +7,7 @@ class CasesByTime (
     val dailyrecovered:String,
     val date:String,
     val totalconfirmed:String,
-    val totaldecease:String,
+    val totaldeceased:String,
     val totalrecovered:String
 )
 

@@ -24,7 +24,19 @@ public class CustomMarkerView extends MarkerView {
     // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        tvContent.setText("" + e.getY()); // set the entry-value as the display text
+        MarginLayoutParams params = (MarginLayoutParams) tvContent.getLayoutParams();
+        if(e.getX()==0)
+        {
+            params.leftMargin=30;
+            params.rightMargin=0;
+        }
+        else{
+            params.leftMargin=0;
+            params.rightMargin=70;
+        }
+
+
+        tvContent.setText(Math.round(e.getY())+""); // set the entry-value as the display text
         super.refreshContent(e, highlight);
 
     }

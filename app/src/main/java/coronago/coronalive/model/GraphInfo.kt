@@ -5,7 +5,11 @@ import java.util.ArrayList
 class GraphInfo(
     val xAxis: List<Int>,
     val yAsix: List<Int>,
-    val dailyCasesList: List<Int>,
-    val dailyDeceaseCasesList: List<Int>,
-    val dateList: ArrayList<String>
+    val totalCasesList: List<Int>,
+    val dailyCasesList:List<Int>,
+    val dailyDeaths:List<Int>,
+    val dailyRecovered:List<Int>,
+    val totalDeceaseCasesList: List<Int>,
+    val dateList: List<String>,
+    val totalRecovered: List<Int>
 )

@@ -8,4 +8,9 @@
     <string name="state">State</string>
     <string name="state_label">States</string>
     <string name="active">Active</string>
+    <string name="Graphs">Graphs</string>
+    <string name="States">States</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="confirmed">Confirmed</string>
 </resources>
