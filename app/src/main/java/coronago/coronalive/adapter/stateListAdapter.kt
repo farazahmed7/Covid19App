@@ -39,6 +39,7 @@ class StateListAdapter(): ListAdapter<Statewise, RecyclerView.ViewHolder>(StateD
                 view.deltaConfirmedTextview.setText("+"+state.deltaconfirmed)
                 view.recoveredTextview.setText(state.recovered)
                 view.activeTextview.setText(state.active)
+                view.deceasedTextview.setText(state.deaths)
 
             val districtList=districtMap.get(state.state.trim())
                 val lm=LinearLayoutManager(view.context)
@@ -48,19 +49,27 @@ class StateListAdapter(): ListAdapter<Statewise, RecyclerView.ViewHolder>(StateD
             view.recylerview.setRecycledViewPool(viewPool)
             view.recylerview.adapter=adapter
             if(stateMap.containsKey(position) && stateMap[position]==true) {
+                view.arrowImageView.animate().setDuration(0).rotation(180F)
                 adapter.submitList(districtList)
-                view.expandable_layout.expand(false)}
+                view.expandable_layout.expand(false)
+                }
 
 
           view.parentLayout.setOnClickListener {
                 view.expandable_layout.toggle()
                 adapter.submitList(districtList)
-              if(view.expandable_layout.isExpanded)
-              stateMap.put(position,true)
-              else
+              if(view.expandable_layout.isExpanded) {
+                  stateMap.put(position, true)
+                  view.arrowImageView.animate().setDuration(600).rotation(180F)
+
+              }
+              else{
                   stateMap.put(position,false)
+              view.arrowImageView.animate().setDuration(600).rotation(0F)}
+
 
             }
+
 
         }
     }

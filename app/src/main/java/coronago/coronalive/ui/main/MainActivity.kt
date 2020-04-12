@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,6 +28,9 @@ import coronago.coronalive.utility.CoupleChartGestureListener
 import coronago.coronalive.utility.PreferenceUtility
 import coronago.coronalive.widget.CovidWidget
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -40,21 +44,57 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setSupportActionBar(toolbar)
         val prefUtilty= PreferenceUtility(this)
         viewModel= ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getStatewiseData()
-        viewModel.combinedLiveData.observe(this, Observer {combined->
-            val it=combined.first.body()!!.statewise
 
+        if(savedInstanceState==null){
+            supportFragmentManager.beginTransaction().add(R.id.container,ListFragment()).commit()
+            }
+        viewModel.getStatewiseData()
+
+        viewModel.combinedLiveData.observe(this, Observer {combined->
+
+            val it=combined.first.body()!!.statewise
             deathsTextview.text = it[0].deaths
             recoveredTextview.text = it[0].recovered
             ActiveTextview.text = it[0].active
             confirmedTextview.text = it[0].confirmed
-            textView.text=it[0].deltaconfirmed
+            textView.text="+"+it[0].deltaconfirmed
+            deltaDeathsTextview.text="+"+it[0].deltadeaths
+            recoveredTextview.text=it[0].recovered
+            deltaRecoveredTextview.text="+"+it[0].deltarecovered
             prefUtilty.saveConfirmedPref(it[0].confirmed)
+            prefUtilty.saveDeathsPref(it[0].deaths)
+            prefUtilty.saveDatePref(it[0].lastupdatedtime)
             sendBroadcastToWidget()
+
+            var lastUpdatedTime:String=""
+            try {
+                val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                val date = sdf.parse(it[0].lastupdatedtime);
+                val millis = date.getTime();
+                val lastUpdatedTimeinMs = System.currentTimeMillis() - millis
+                var lastUpdatedinMinutes = (lastUpdatedTimeinMs / 1000) / 60;
+
+                if (lastUpdatedinMinutes >= 60) {
+                    lastUpdatedinMinutes = lastUpdatedinMinutes / 60
+                    if (lastUpdatedinMinutes == 1L) {
+                        lastUpdatedTime = "1 Hour Ago"
+                    } else {
+                        lastUpdatedTime = "Last Updated: $lastUpdatedinMinutes Hours Ago"
+                    }
+                } else {
+                    lastUpdatedTime = "Last Updated: $lastUpdatedinMinutes Minutes Ago"
+                }
+                lastUpdated.text=lastUpdatedTime
+            }catch (e: Exception){
+
+            }
+
+         progressBar.visibility=View.GONE
 
 
         })
-        supportFragmentManager.beginTransaction().add(R.id.container,ListFragment()).commit()
+
+
 
         bottomNavigation.setOnNavigationItemSelectedListener(this)
 

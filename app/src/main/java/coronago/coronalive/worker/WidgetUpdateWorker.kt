@@ -27,9 +27,12 @@ class WidgetUpdateWorker(context: Context,
         val date=Calendar.getInstance().getTime();
        return  single.doOnSuccess{
                 if(it.code()==200){
+                    val resp=it.body()!!.statewise[0]
                    val totalConfirmedText= it.body()!!.statewise[0].confirmed
+                    val totalDeaths=resp.deaths
                     prefUtility.saveConfirmedPref(totalConfirmedText)
                     prefUtility.saveDatePref(date.toString())
+                    prefUtility.saveDatePref(totalDeaths)
                     val man = AppWidgetManager.getInstance(applicationContext)
                     // 2
                     val ids = man.getAppWidgetIds(

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "542057392611",
+    "firebase_url": "https://covid19tracker-a4923.firebaseio.com",
+    "project_id": "covid19tracker-a4923",
+    "storage_bucket": "covid19tracker-a4923.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542057392611:android:e225770912c5114a0698d6",
+        "android_client_info": {
+          "package_name": "coronago.coronalive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542057392611-dir4tmcp4gudnmiuqvidbbk5llavd08f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClBWSkk_1npRNMW1o9a4CVBjwGcYVB9qo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542057392611-dir4tmcp4gudnmiuqvidbbk5llavd08f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

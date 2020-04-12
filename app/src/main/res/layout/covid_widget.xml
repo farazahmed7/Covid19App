@@ -1,37 +1,82 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/widgetLayout"
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin">
 <RelativeLayout
     android:layout_width="match_parent"
     android:background="@drawable/card_drawavle"
     android:layout_height="match_parent">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-         android:background="@color/darkblue"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:id="@+id/parentLayout"
+        android:layout_height="wrap_content">
 
-        android:layout_height="20dp">
         <TextView
+            android:gravity="center"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:background="@color/darkblue"
             android:text="Total"
-            android:layout_gravity="center"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@color/darkblue"
+            android:text="Deaths"
             android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/confirmedTextview"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:layout_margin="8dp"
-        android:contentDescription="Confirmed"
-        android:text="0"
-        android:textSize="20sp"
-         />
+        android:layout_weight="1"
+        >
+
+        <TextView
+            android:id="@+id/confirmedTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:contentDescription="Confirmed"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/confirmedDeathTextview"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_margin="8dp"
+            android:textColor="@color/red"
+            android:contentDescription="Confirmed"
+            android:text="0"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
 </RelativeLayout>
 </RelativeLayout>

@@ -49,7 +49,10 @@ class GraphFragment : Fragment() {
 
 
    //   viewInScrollView.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
-        viewModel= ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel= activity?.run {
+            ViewModelProviders.of(this).get(MainViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
         viewModel.getAllStatsData()
         val entries=ArrayList<Entry>()
         val entries2=ArrayList<Entry>()
@@ -80,24 +83,24 @@ class GraphFragment : Fragment() {
             var downX:Int=0
             var downY:Int=0
             val dragthreshold=100
-            dailyCasesChart.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
-            deceasedChart.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
+            view.dailyCasesChart.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
+            view.deceasedChart.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
+            view.recoveredChart.setOnTouchListener(ViewInScrollViewTouchHelper(viewInScrollView))
 
             setCumilative(entries,entries2,entries3,it)
              graphInfo=it
-           /* view.button.setOnClickListener(View.OnClickListener {
-                setDaily(entries4,entries5,entries6,graphInfo)
-
-            })*/
-
-
-
-            setListeners(view.dailyCasesChart,view.deceasedChart)
+             setListeners(view.dailyCasesChart,view.deceasedChart,graphInfo!!,view!!)
             loaded=true
+            view.swipeToRefresh.isRefreshing=false
 
 
 
         })
+
+        view.swipeToRefresh.setOnRefreshListener {
+            viewModel.getAllStatsData()
+
+        }
             return view
     }
 
@@ -133,7 +136,7 @@ class GraphFragment : Fragment() {
         setChart(entries3,it,view!!.recoveredChart)
 
     }
-    fun  setListeners(casesChart:LineChart, deathsChart:LineChart){
+    fun  setListeners(casesChart:LineChart, deathsChart:LineChart,graphInfo: GraphInfo, view: View){
         casesChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onNothingSelected() {
             }
@@ -141,7 +144,12 @@ class GraphFragment : Fragment() {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
                 if (e != null) {
                     deathsChart.highlightValue(e.getX(),e.getY(),0,false)
+                    recoveredChart.highlightValue(e.getX(),e.getY(),0,false)
                     casesChart.parent.parent.requestDisallowInterceptTouchEvent(true)
+                    val index=Math.round(e.x)
+                    view.confirmedDate.text=graphInfo.dateList[index].toString()
+                    view.recoveredDate.text=graphInfo.dateList[index].toString()
+                    view.deathsDate.text=graphInfo.dateList[index].toString()
                 };
             }
 
@@ -154,6 +162,11 @@ class GraphFragment : Fragment() {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
                 if (e != null) {
                     casesChart.highlightValue(e.getX(),e.getY(),0,false)
+                    recoveredChart.highlightValue(e.getX(),e.getY(),0,false)
+                    val index=Math.round(e.x)
+                    view.confirmedDate.text=graphInfo.dateList[index].toString()
+                    view.recoveredDate.text=graphInfo.dateList[index].toString()
+                    view.deathsDate.text=graphInfo.dateList[index].toString()
                     deathsChart.parent.parent.requestDisallowInterceptTouchEvent(true)
 
                 };
@@ -170,6 +183,10 @@ class GraphFragment : Fragment() {
                     casesChart.highlightValue(e.getX(),e.getY(),0,false)
                     deathsChart.highlightValue(e.getX(),e.getY(),0,false)
                     recoveredChart.parent.parent.requestDisallowInterceptTouchEvent(true)
+                    val index=Math.round(e.x)
+                    view.confirmedDate.text=graphInfo.dateList[index].toString()
+                    view.recoveredDate.text=graphInfo.dateList[index].toString()
+                    view.deathsDate.text=graphInfo.dateList[index].toString()
 
                 };
             }
@@ -216,12 +233,11 @@ class GraphFragment : Fragment() {
             override fun getFormattedValue(value: Float): String? {
                 return graphInfo.dateList[value.toInt()]
             }
-
         } )
 
         chart.axisLeft.valueFormatter=LargeValueFormatter()
         chart.axisRight.isEnabled=false
-
+        chart.animateX(600)
 
     }
 

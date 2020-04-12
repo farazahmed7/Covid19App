@@ -15,13 +15,19 @@
     android:layout_marginRight="12dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:id="@+id/swipeToRefresh"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:padding="3dp"
+        android:layoutAnimation="@anim/layout_animation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerView"
         tools:listitem="@layout/item_list"
         />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.cardview.widget.CardView>
 
 

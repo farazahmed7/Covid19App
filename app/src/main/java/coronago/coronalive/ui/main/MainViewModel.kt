@@ -32,7 +32,7 @@ class MainViewModel: ViewModel() {
     {
         covidRepo.getAllStatsTillDdate().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+            .subscribe ({
                 val xList: ArrayList<Int> = arrayListOf()
                 val yList: ArrayList<Int> = arrayListOf()
                 val deceasedList: ArrayList<Int> = arrayListOf()
@@ -61,7 +61,10 @@ class MainViewModel: ViewModel() {
                 val graphInfo=GraphInfo(xList,yList,totalCaseList,dailyCasesList,dailyDeceasedList,dailyRecoveredList,deceasedList,dateList,totalRecovered)
                 graphInfoLiveData.value=graphInfo
 
-            }
+            },
+                {
+                    Log.d("rxerror",it.message)
+                })
     }
 
     fun getDistrictWiseData():MutableLiveData<HashMap<String,List<DistrictModel>>>{
@@ -83,6 +86,7 @@ class MainViewModel: ViewModel() {
         val stateObservable=covidRepo.getAllStatsTillDdate().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+
         val districtObservable=covidRepo.getDistrictWise().flatMap {
             val  map=HashMap<String,List<DistrictModel>>()
             val list=it.body()
@@ -101,9 +105,12 @@ class MainViewModel: ViewModel() {
                   districtLiveData.postValue(hashMap)
                Pair(response,hashMap)
             }
-        ).subscribe{
+        ).subscribe({
             combinedLiveData.value=it
-        }
+        },
+            {
+                Log.d("Rxerror",it.message)
+            })
         return stateWiseLiveData
             }
     }

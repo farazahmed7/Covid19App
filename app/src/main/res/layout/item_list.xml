@@ -16,11 +16,18 @@
     android:id="@+id/parentLayout"
     android:layout_height="wrap_content">
 
+    <ImageView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow"
+        android:id="@+id/arrowImageView"
+        />
     <TextView
-        android:layout_width="140dp"
+        android:layout_width="0dp"
         android:maxLines="2"
-        android:layout_weight="1.5"
-        android:textSize="15sp"
+        android:layout_weight="6"
+        android:textSize="14sp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         tools:text="Mumbai"
         android:layout_marginRight="4dp"
@@ -28,9 +35,9 @@
         android:layout_height="wrap_content"/>
     <TextView
         android:layout_marginRight="3dp"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:gravity="right"
-        android:textSize="15sp"
+        android:textSize="13sp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         android:id="@+id/deltaConfirmedTextview"
         android:textColor="@color/red"
@@ -38,7 +45,7 @@
     <TextView
         android:layout_weight="1"
         android:layout_width="40dp"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:text="10"
         android:id="@+id/confirmedTextview"
         android:layout_height="wrap_content"/>
@@ -46,18 +53,27 @@
     <TextView
         android:layout_weight="1"
         android:layout_width="40dp"
-        android:textSize="15sp"
+        android:textSize="14sp"
+        android:gravity="center"
         tools:text="20"
         android:id="@+id/activeTextview"
         android:layout_height="wrap_content"/>
     <TextView
+    android:layout_weight="1"
+    android:layout_width="40dp"
+    android:textSize="14sp"
+    tools:text="30"
+    android:gravity="center"
+    android:id="@+id/recoveredTextview"
+    android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="30dp"
+        android:textSize="14sp"
         android:layout_weight="1"
-        android:layout_width="40dp"
-        android:textSize="15sp"
-        tools:text="30"
-        android:id="@+id/recoveredTextview"
+        android:text="3000"
+        android:gravity="center"
+        android:id="@+id/deceasedTextview"
         android:layout_height="wrap_content"/>
-
 </LinearLayout>
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expandable_layout"
@@ -69,11 +85,17 @@
 
 
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="300dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
         android:layout_height="wrap_content"
         android:id="@+id/recylerview">
-
     </androidx.recyclerview.widget.RecyclerView>
-    </net.cachapa.expandablelayout.ExpandableLayout>
+
+        </androidx.cardview.widget.CardView>
+        >    </net.cachapa.expandablelayout.ExpandableLayout>
 </LinearLayout>
