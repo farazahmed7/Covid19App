@@ -53,6 +53,9 @@ class GraphFragment : Fragment() {
             ViewModelProviders.of(this).get(MainViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
+        viewModel.errorLivedata.observe(this, Observer {
+            swipeToRefresh.isRefreshing=false
+        })
         viewModel.getAllStatsData()
         val entries=ArrayList<Entry>()
         val entries2=ArrayList<Entry>()
@@ -238,6 +241,7 @@ class GraphFragment : Fragment() {
         chart.axisLeft.valueFormatter=LargeValueFormatter()
         chart.axisRight.isEnabled=false
         chart.animateX(600)
+        chart.xAxis.setLabelCount(7,true)
 
     }
 

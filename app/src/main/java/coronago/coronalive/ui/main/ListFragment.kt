@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coronago.coronalive.R
 import coronago.coronalive.adapter.StateListAdapter
 import coronago.coronalive.utility.PreferenceUtility
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_graph.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
@@ -53,7 +56,9 @@ class ListFragment : Fragment() {
             v.swipeToRefresh.isRefreshing=false
 
         })
-
+        viewModel.errorLivedata.observe(this, Observer {
+                swipeToRefresh.isRefreshing=false
+        })
         v.swipeToRefresh.setOnRefreshListener {
             viewModel.getStatewiseData()
 

@@ -21,11 +21,13 @@ import java.util.ArrayList
 
 class MainViewModel: ViewModel() {
 
+
     val covidRepo=CovidRepository()
     val combinedLiveData=MutableLiveData<Pair<Response<ApiResponse>,HashMap<String,List<DistrictModel>>>>()
     val districtLiveData=MutableLiveData<HashMap<String,List<DistrictModel>>>()
      val graphInfoLiveData = MutableLiveData<GraphInfo>()
     val stateWiseLiveData= MutableLiveData<List<Statewise>>()
+    val errorLivedata= MutableLiveData<String>()
 
     @SuppressLint("CheckResult")
     fun getAllStatsData()
@@ -64,24 +66,12 @@ class MainViewModel: ViewModel() {
             },
                 {
                     Log.d("rxerror",it.message)
+                    errorLivedata.value="Some error occured"
+
                 })
     }
 
-    fun getDistrictWiseData():MutableLiveData<HashMap<String,List<DistrictModel>>>{
-        covidRepo.getDistrictWise().flatMap {
-           val  map=HashMap<String,List<DistrictModel>>()
-            val list=it.body()
-            for(i in 0 until list!!.size)
-              map.put(list!![i].state, list!![i].districtData)
-        Observable.just(map)
 
-        }.
-        subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-
-        return districtLiveData
-
-    }
     fun getStatewiseData(): MutableLiveData<List<Statewise>>{
         val stateObservable=covidRepo.getAllStatsTillDdate().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -110,6 +100,7 @@ class MainViewModel: ViewModel() {
         },
             {
                 Log.d("Rxerror",it.message)
+                errorLivedata.value="Some error occured"
             })
         return stateWiseLiveData
             }

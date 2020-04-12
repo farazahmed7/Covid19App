@@ -33,6 +33,10 @@ class DistrictAdapter(): ListAdapter<DistrictModel, RecyclerView.ViewHolder>(Dis
             itemView.confirmedTextview.setText(district.confirmed)
             if(!district.delta.confirmed.equals("0"))
             itemView.deltaConfirmedTextview.setText("+"+district.delta.confirmed)
+            else
+                itemView.deltaConfirmedTextview.setText("")
+
+
         }
     }
 

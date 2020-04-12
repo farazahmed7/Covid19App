@@ -30,7 +30,7 @@
     app:overallColor="@color/colorPrimary"
     app:textColor="#FF0000"
     app:highlightColor="@color/colorPrimary"
-    app:flipAnimationDuration="400"
+    app:flipAnimationDuration="500"
     app:wobbleReturnAnimationDuration="200"
     app:wobbleAngle="3" />
 
@@ -53,7 +53,7 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@color/red"
                 android:id="@+id/confirmedLabel"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="50dp"
                 android:text="CONFIRMED"
                 />
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/red"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="50dp"
                 android:layout_below="@+id/confirmedLabel"
                 />
         <com.github.mikephil.charting.charts.LineChart
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="50dp"
             android:id="@+id/deathsLabel"
             android:text="DEATHS"
             />
@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="50dp"
                 android:layout_below="@+id/deathsLabel"
                 />
         <com.github.mikephil.charting.charts.LineChart
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textColor="@color/green"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="50dp"
             android:id="@+id/recoverdLabel"
             android:text="RECOVERED"
             />
@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/green"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="50dp"
                 android:layout_below="@+id/recoverdLabel"
                 />
         <com.github.mikephil.charting.charts.LineChart

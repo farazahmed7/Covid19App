@@ -37,6 +37,8 @@ class StateListAdapter(): ListAdapter<Statewise, RecyclerView.ViewHolder>(StateD
                 view.confirmedTextview.setText(state.confirmed)
               if(state.deltaconfirmed.toInt()!=0)
                 view.deltaConfirmedTextview.setText("+"+state.deltaconfirmed)
+            else
+                  view.deltaConfirmedTextview.setText("")
                 view.recoveredTextview.setText(state.recovered)
                 view.activeTextview.setText(state.active)
                 view.deceasedTextview.setText(state.deaths)

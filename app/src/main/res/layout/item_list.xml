@@ -25,7 +25,7 @@
         />
     <TextView
         android:layout_width="0dp"
-        android:maxLines="2"
+        android:maxLines="3"
         android:layout_weight="6"
         android:textSize="14sp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
@@ -37,6 +37,7 @@
         android:layout_marginRight="3dp"
         android:layout_width="50dp"
         android:gravity="right"
+        android:maxLines="2"
         android:textSize="13sp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         android:id="@+id/deltaConfirmedTextview"
@@ -47,6 +48,7 @@
         android:layout_width="40dp"
         android:textSize="14sp"
         android:text="10"
+        android:maxLines="2"
         android:id="@+id/confirmedTextview"
         android:layout_height="wrap_content"/>
 
@@ -56,6 +58,7 @@
         android:textSize="14sp"
         android:gravity="center"
         tools:text="20"
+        android:maxLines="2"
         android:id="@+id/activeTextview"
         android:layout_height="wrap_content"/>
     <TextView
@@ -63,6 +66,7 @@
     android:layout_width="40dp"
     android:textSize="14sp"
     tools:text="30"
+        android:maxLines="2"
     android:gravity="center"
     android:id="@+id/recoveredTextview"
     android:layout_height="wrap_content"/>
@@ -71,6 +75,7 @@
         android:textSize="14sp"
         android:layout_weight="1"
         android:text="3000"
+        android:maxLines="2"
         android:gravity="center"
         android:id="@+id/deceasedTextview"
         android:layout_height="wrap_content"/>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -28,6 +29,7 @@ import coronago.coronalive.utility.CoupleChartGestureListener
 import coronago.coronalive.utility.PreferenceUtility
 import coronago.coronalive.widget.CovidWidget
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_graph.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
@@ -94,6 +96,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         })
 
+        viewModel.errorLivedata.observe(this, Observer {
+            Toast.makeText(this,it,Toast.LENGTH_SHORT).show()
+            progressBar.visibility=View.GONE
+
+        })
 
 
         bottomNavigation.setOnNavigationItemSelectedListener(this)
